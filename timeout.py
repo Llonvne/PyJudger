@@ -1,10 +1,6 @@
 import signal
 
 
-class TimeoutError(Exception):
-    pass
-
-
 def timeout(seconds=5, error_message='Function call timed out'):
     def decorator(func):
         def _handle_timeout(signum, frame):

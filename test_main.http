@@ -27,4 +27,28 @@ Content-Type: application/json
 
 
 ###
-GET 127.0.0.1:8000/
+POST localhost:8000/test/api/python3_compiler
+Content-Type: application/json
+
+{
+  "submission_id": 3,
+  "code": "cHJpbnQoIkhlbGxvIikK"
+}
+
+###
+POST 127.0.0.1:8000/test/api/python3_runner/
+Content-Type: application/json
+
+{
+  "submission_id": 3,
+  "testcases": [
+    {
+      "input": "",
+      "output": "1"
+    },
+    {
+      "input": "",
+      "output": "2"
+    }
+  ]
+}

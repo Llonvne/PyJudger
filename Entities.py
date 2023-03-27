@@ -6,11 +6,11 @@ class TestCase(BaseModel):
     output: str
 
 
-class CppRunnerRequest(BaseModel):
+class RunnerRequest(BaseModel):
     submission_id: int
     testcases: list[TestCase]
 
 
-class CppCompilerRequest(BaseModel):
+class CompilerRequest(BaseModel):
     submission_id: int
     code: str
