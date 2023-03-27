@@ -4,7 +4,7 @@ from abstract.Compiler import Compiler
 
 class CompileResult:
     def __init__(self, message: str):
-        self.isOk = "error" not in message
+        self.isOk = ("error" not in message) and ("错误" not in message)
         self.message = message
 
 

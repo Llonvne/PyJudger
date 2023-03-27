@@ -2,7 +2,7 @@ import abc
 
 from Entities import RunnerRequest
 from abstract.DockerBased import DockerBased
-from abstract.Runner import Runner
+from timeout import timeout
 
 
 class DockerBasedStandardRunner(DockerBased):
@@ -13,6 +13,7 @@ class DockerBasedStandardRunner(DockerBased):
     def get_command(self, request: RunnerRequest):
         pass
 
+    @timeout(10)
     def run(self, request: RunnerRequest):
         results = []
         for testcase in request.testcases:

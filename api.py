@@ -1,12 +1,14 @@
 import os.path
-from py3.python_compiler import PythonCompiler
-from py3.python_runner import PythonRunner
 
 import fastapi
 
 from Entities import RunnerRequest, CompilerRequest
 from cpp.cpp_compiler import CppCompiler
 from cpp.cpp_runner import CppRunner
+from jdk.GenericJavaRunner import GenericJavaRunner
+from jdk.JDKCompiler import JDKCompiler
+from py3.python_compiler import PythonCompiler
+from py3.python_runner import PythonRunner
 
 app = fastapi.FastAPI()
 
@@ -14,6 +16,8 @@ cppCompiler = CppCompiler()
 cppRunner = CppRunner()
 python3Compiler = PythonCompiler()
 python3Runner = PythonRunner()
+jdk17Compiler = JDKCompiler()
+jdk17Runner = GenericJavaRunner(17)
 
 code_root_path = "codes"
 executable_root_path = "target"
@@ -67,6 +71,31 @@ async def python3_compiler(code: CompilerRequest):
 async def python3_runner(request: RunnerRequest):
     try:
         result = python3Runner.run(request)
+        return {
+            "submission_id": request.submission_id,
+            "status": "OK",
+            "result": result,
+        }
+    except TimeoutError:
+        return {
+            "submission_id": request.submission_id,
+            "status": "timeout",
+            "result": []
+        }
+
+
+@app.post("/test/api/jdk_compiler")
+async def jdk17_compiler(request: CompilerRequest):
+    result = jdk17Compiler.compiler(request.code,
+                                    os.path.join(code_space_path("jdk17"), f"{request.submission_id}.java"),
+                                    f"target/{request.submission_id}.java")
+    return result
+
+
+@app.post("/test/api/jdk_runner/{java_version}")
+async def jdk_runner(request: RunnerRequest, java_version: int):
+    try:
+        result = GenericJavaRunner(java_version).run(request)
         return {
             "submission_id": request.submission_id,
             "status": "OK",

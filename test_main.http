@@ -3,7 +3,7 @@ POST 127.0.0.1:8000/test/api/cpp_compiler
 Content-Type: application/json
 
 {
-  "submission_id": 4,
+  "submission_id": 5,
   "code": "I2luY2x1ZGUgPGlvc3RyZWFtPgoKdXNpbmcgbmFtZXNwYWNlIHN0ZDsKCmludCBtYWluKCkgewogICAgaW50IFQ7CiAgICBjaW4gPj4gVDsKICAgIGNvdXQgPDwgVDsKfQo="
 }
 
@@ -49,6 +49,29 @@ Content-Type: application/json
     {
       "input": "",
       "output": "2"
+    }
+  ]
+}
+
+###
+POST localhost:8000/test/api/jdk_compiler
+Content-Type: application/json
+
+{
+  "submission_id": 9,
+  "code": "cHVibGljIGNsYXNzIE1haW4gewogICAgcHVibGljIHN0YXRpYyB2b2lkIG1haW4oU3RyaW5nW10gYXJncykgewogICAgICAgIFN5c3RlbS5vdXQucHJpbnRsbigiSGVsbG8gV29ybGQiKTsKICAgIH0KfQ=="
+}
+
+###
+POST localhost:8000/test/api/jdk_runner/8
+Content-Type: application/json
+
+{
+  "submission_id": 9,
+  "testcases": [
+    {
+      "input": "",
+      "output": ""
     }
   ]
 }
