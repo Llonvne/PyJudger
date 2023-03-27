@@ -1,0 +1,30 @@
+# Test your FastAPI endpoints
+POST 127.0.0.1:8000/test/api/cpp_compiler
+Content-Type: application/json
+
+{
+  "submission_id": 2,
+  "code": "I2luY2x1ZGUgPGlvc3RyZWFtPgoKdXNpbmcgbmFtZXNwYWNlIHN0ZDsKCmludCBtYWluKCkgewogICAgaW50IFQ7CiAgICBjaW4gPj4gVDsKICAgIGNvdXQgPDwgVDsKfQo="
+}
+
+###
+POST 127.0.0.1:8000/test/api/cpp_runner/
+Content-Type: application/json
+
+{
+  "submission_id": 2,
+  "testcases": [
+    {
+      "input": "1",
+      "output": "1"
+    },
+    {
+      "input": "2",
+      "output": "2"
+    }
+  ]
+}
+
+
+###
+GET 127.0.0.1:8000/
