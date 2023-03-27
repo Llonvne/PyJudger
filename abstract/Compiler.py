@@ -3,11 +3,6 @@ import base64
 
 
 class Compiler(abc.ABC):
-
-    @abc.abstractmethod
-    def image_dependency(self):
-        pass
-
     @staticmethod
     def decode_from_base64(code) -> str:
         return base64.b64decode(code).decode("utf-8")

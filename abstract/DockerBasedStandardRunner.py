@@ -1,22 +1,22 @@
 import abc
-import subprocess
 
 from Entities import RunnerRequest
+from abstract.DockerBased import DockerBased
+from abstract.Runner import Runner
 
 
-class Runner(abc.ABC):
+class DockerBasedStandardRunner(DockerBased):
+    def __init__(self, imageName: str, dockerfile: str):
+        super().__init__(imageName, dockerfile)
 
     @abc.abstractmethod
-    def run(self, runnerRequest: RunnerRequest):
+    def get_command(self, request: RunnerRequest):
         pass
 
-    @staticmethod
-    def standard_runner(request: RunnerRequest, imageName: str, command: str):
+    def run(self, request: RunnerRequest):
         results = []
         for testcase in request.testcases:
-            compile_command = f"docker run -i --rm -v $(pwd):/src -w /src {imageName} {command}"
-            program = subprocess.Popen(compile_command, shell=True, text=True, stderr=subprocess.PIPE,
-                                       stdout=subprocess.PIPE, stdin=subprocess.PIPE)
+            program = self.run_docker(self.get_command(request))
             program.stdin.write(testcase.input + "\n")
             program.stdin.flush()
             program.wait()
