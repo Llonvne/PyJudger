@@ -7,6 +7,8 @@ from cpp.cpp_compiler import CppCompiler
 from cpp.cpp_runner import CppRunner
 from jdk.GenericJavaRunner import GenericJavaRunner
 from jdk.JDKCompiler import JDKCompiler
+from lifecycle.CompileLifeCycle import CompileLifeCycle
+from lifecycle.plugins.AutomaticPathGenerator import AutomaticPathGenerator
 from py3.GenericPythonRunner import GenericPython3Runner
 from py3.python_compiler import PythonCompiler
 
@@ -15,24 +17,10 @@ app = fastapi.FastAPI()
 cppCompiler = CppCompiler()
 cppRunner = CppRunner()
 
-code_root_path = "codes"
-executable_root_path = "target"
-
-
-def code_space_path(language: str):
-    return os.path.join(code_root_path, language)
-
 
 @app.post("/test/api/cpp_compiler")
 async def cpp_compiler(request: CompilerRequest):
-    result = cppCompiler.compiler(
-        request.code, os.path.join(code_space_path("cpp"), f"{request.submission_id}.cpp"),
-        f"target/{request.submission_id}")
-    return {
-        "submission_id": request.submission_id,
-        "is_ok": result.isOk,
-        "message": result.message
-    }
+    return CompileLifeCycle(request, lambda: cppCompiler).addPlugin(AutomaticPathGenerator()).startLifeCycle()
 
 
 @app.post("/test/api/cpp_runner/")

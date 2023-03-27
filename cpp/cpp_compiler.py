@@ -1,5 +1,5 @@
-from abstract.DockerBased import DockerBased
 from abstract.Compiler import Compiler
+from abstract.DockerBased import DockerBased
 
 
 class CompileResult:
@@ -9,6 +9,16 @@ class CompileResult:
 
 
 class CppCompiler(Compiler, DockerBased):
+
+    def source_extension_name(self) -> str:
+        return ".cpp"
+
+    def compiled_extension_name(self) -> str:
+        return ""
+
+    def language_name(self) -> str:
+        return "cpp"
+
     def __init__(self):
         super().__init__(
             "gpp-compiler",
