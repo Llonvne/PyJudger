@@ -2,10 +2,11 @@ import abc
 
 from Entities import RunnerRequest
 from abstract.DockerBased import DockerBased
+from abstract.Runner import Runner
 from timeout import timeout
 
 
-class DockerBasedStandardRunner(DockerBased):
+class DockerBasedStandardRunner(DockerBased, Runner):
     def __init__(self, imageName: str, dockerfile: str):
         super().__init__(imageName, dockerfile)
 

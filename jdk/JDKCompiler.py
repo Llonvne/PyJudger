@@ -5,10 +5,10 @@ from cpp.cpp_compiler import CompileResult
 class JDKCompiler(Compiler):
 
     def source_extension_name(self) -> str:
-        return "java"
+        return ".java"
 
     def compiled_extension_name(self) -> str:
-        return "java"
+        return ".java"
 
     def language_name(self) -> str:
         return "java"

@@ -7,4 +7,4 @@ class CppRunner(DockerBasedStandardRunner):
         super().__init__("ubuntu", """FROM ubuntu:latest""")
 
     def get_command(self, request: RunnerRequest):
-        return f"./target/{request.submission_id}"
+        return f"./target/{request.submission_id}/{request.submission_id}"
