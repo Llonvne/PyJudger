@@ -8,6 +8,7 @@ from jdk.JDKCompiler import JDKCompiler
 from lifecycle.CompileLifeCycle import CompileLifeCycle
 from lifecycle.RunnerLifeCycle import RunnerLifeCycle
 from lifecycle.plugins.AutomaticPathGenerator import AutomaticPathGenerator
+from lifecycle.plugins.RunnerVersionLimiter import RunnerVersionLimiter
 from py3.GenericPythonRunner import GenericPython3Runner
 from py3.python_compiler import PythonCompiler
 
@@ -44,7 +45,9 @@ async def jdk_compiler(request: CompilerRequest):
 
 @app.post("/test/api/jdk_runner/{java_version}")
 async def jdk_runner(request: RunnerRequest, java_version: int):
-    return RunnerLifeCycle(request, lambda: GenericJavaRunner(java_version)).startLifeCycle()
+    return RunnerLifeCycle(request, lambda: GenericJavaRunner(java_version)) \
+        .addPlugin(RunnerVersionLimiter(["8"])) \
+        .startLifeCycle()
 
 
 @app.get("/")

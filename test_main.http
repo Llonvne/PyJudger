@@ -40,7 +40,7 @@ POST 127.0.0.1:8000/test/api/python3_runner/3.10
 Content-Type: application/json
 
 {
-  "submission_id": 3,
+  "submission_id": 1,
   "testcases": [
     {
       "input": "",

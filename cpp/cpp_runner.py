@@ -8,3 +8,6 @@ class CppRunner(DockerBasedStandardRunner):
 
     def get_command(self, request: RunnerRequest):
         return f"./target/{request.submission_id}/{request.submission_id}"
+
+    def get_version(self) -> str:
+        return "unknown"

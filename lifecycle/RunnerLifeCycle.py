@@ -6,6 +6,10 @@ from abstract.Runner import Runner
 from lifecycle.plugins.LifeCyclePlugin import LifeCyclePlugin
 
 
+class RunnerError(Exception):
+    pass
+
+
 class RunnerLifeCycleStatus(Enum):
     RunnerRequestReceived = 0
     PrepareTester = 1
@@ -32,15 +36,21 @@ class RunnerLifeCycle:
         self.result = None
 
     def startLifeCycle(self):
-        for i in range(9):
-            self.status = RunnerLifeCycleStatus(i)
-            for listeners in self.__listeners[i]:
-                for listener in listeners:
-                    listener(self)
-            if i == 3:
-                self.runner = self.runnerSupplier()
-            if i == 4:
-                self.runner.run(self.runnerSupplier)
+        try:
+            for i in range(9):
+                self.status = RunnerLifeCycleStatus(i)
+                for listeners in self.__listeners[i]:
+                    listeners(self)
+                if i == 3:
+                    self.runner = self.runnerSupplier()
+                if i == 4:
+                    self.result = self.runner.run(self.request)
+        except RunnerError as e:
+            return {
+                "submission_id": self.request.submission_id,
+                "status": "failed",
+                "message": str(e)
+            }
         return self.doResponse()
 
     def addStatusListener(self, status: RunnerLifeCycleStatus,
