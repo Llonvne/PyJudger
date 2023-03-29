@@ -1,3 +1,5 @@
+import uuid
+
 import fastapi
 
 from Entities import RunnerRequest, CompilerRequest
@@ -15,39 +17,60 @@ from py3.python_compiler import PythonCompiler
 app = fastapi.FastAPI()
 
 
-@app.post("/test/api/cpp_compiler")
+@app.post("/api/cpp_compiler")
 async def cpp_compiler(request: CompilerRequest):
     return CompileLifeCycle(request, lambda: CppCompiler()) \
         .addPlugin(AutomaticPathGenerator()).startLifeCycle()
 
 
-@app.post("/test/api/cpp_runner/")
+@app.post("/api/cpp_runner/")
 async def cpp_runner(request: RunnerRequest):
     return RunnerLifeCycle(request, lambda: CppRunner()).startLifeCycle()
 
 
-@app.post("/test/api/python3_compiler")
+@app.post("/api/python3_compiler")
 async def python3_compiler(request: CompilerRequest):
     return CompileLifeCycle(request, lambda: PythonCompiler()) \
         .addPlugin(AutomaticPathGenerator()).startLifeCycle()
 
 
-@app.post("/test/api/python3_runner/{python_version}")
+@app.post("/api/python3_runner/{python_version}")
 async def python3_runner(request: RunnerRequest, python_version: str):
     return RunnerLifeCycle(request, lambda: GenericPython3Runner(python_version)).startLifeCycle()
 
 
-@app.post("/test/api/jdk_compiler")
+@app.post("/api/jdk_compiler")
 async def jdk_compiler(request: CompilerRequest):
     return CompileLifeCycle(request, lambda: JDKCompiler()) \
         .addPlugin(AutomaticPathGenerator()).startLifeCycle()
 
 
-@app.post("/test/api/jdk_runner/{java_version}")
+@app.post("/api/jdk_runner/{java_version}")
 async def jdk_runner(request: RunnerRequest, java_version: int):
     return RunnerLifeCycle(request, lambda: GenericJavaRunner(java_version)) \
-        .addPlugin(RunnerVersionLimiter(["8"])) \
+        .addPlugin(RunnerVersionLimiter(["8", "17"])) \
         .startLifeCycle()
+
+
+name = uuid.uuid4()
+
+
+@app.get("/api/metadata")
+async def get_metadata():
+    return {
+        "name": name,
+        "serverMetadata": {
+            "ip": "http://127.0.0.1/api/",
+            "port": "8080",
+        },
+        "compilerMetadata": [
+            {
+                "name": "gcc-cpp",
+                "version": "17",
+                "url": "cpp_compiler"
+            }
+        ]
+    }
 
 
 @app.get("/")
