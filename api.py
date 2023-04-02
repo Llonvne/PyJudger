@@ -96,3 +96,8 @@ async def get_metadata():
 @app.get("/")
 async def root():
     return "Welcome to Llonvne Judge Server!"
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host='0.0.0.0', port=8000)
