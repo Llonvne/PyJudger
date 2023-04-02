@@ -93,6 +93,5 @@ class CompileLifeCycle:
     def doResponse(self):
         return {
             "submission_id": self.request.submission_id,
-            "is_ok": self.result.isOk,
-            "message": self.result.message
+            "is_ok": self.result.isOk
         }

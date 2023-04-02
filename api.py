@@ -58,18 +58,38 @@ name = uuid.uuid4()
 @app.get("/api/metadata")
 async def get_metadata():
     return {
-        "name": name,
-        "serverMetadata": {
-            "ip": "http://127.0.0.1/api/",
-            "port": "8080",
+        "serverName": name,
+        "networkMetadata": {
+            "apiRootUrl": "http://127.0.0.1:8080/api/",
         },
-        "compilerMetadata": [
-            {
-                "name": "gcc-cpp",
-                "version": "17",
-                "url": "cpp_compiler"
-            }
-        ]
+        "compilerMetadata": {
+            "supportCompilers": [
+                {
+                    "name": "gcc-cpp",
+                    "version": "17",
+                    "url": "cpp_compiler"
+                },
+                {
+                    "name": "java",
+                    "version": "17",
+                    "url": "jdk_compiler"
+                },
+                {
+                    "name": "python",
+                    "version": "3.10",
+                    "url": "python3_compiler"
+                }
+            ]
+        },
+        "runnerMetadata": {
+            "supportRunners": [
+                {
+                    "name": "cpp-runner",
+                    "version": "unknown",
+                    "url": "cpp_runner"
+                }
+            ]
+        }
     }
 
 
