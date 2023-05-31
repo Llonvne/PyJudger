@@ -4,8 +4,11 @@ from abstract.DockerBased import DockerBased
 
 class CompileResult:
     def __init__(self, message: str):
-        self.isOk = ("error" not in message) and ("错误" not in message)
+        self.isOk = 'error' not in message
         self.message = message
+
+    def __str__(self) -> str:
+        return f"{self.isOk}"
 
 
 class CppCompiler(Compiler, DockerBased):
@@ -29,4 +32,4 @@ class CppCompiler(Compiler, DockerBased):
         CppCompiler.write_to_file(code_str, source_file)
         result = self.run_docker(f"g++ {source_file} -o {target_file}")
         # 返回编译结果
-        return CompileResult(result.stderr)
+        return CompileResult('\n'.join(result.stderr.readlines()))

@@ -1,6 +1,7 @@
 import uuid
 
 import fastapi
+import uvicorn
 
 from Entities import RunnerRequest, CompilerRequest
 from cpp.cpp_compiler import CppCompiler
@@ -10,7 +11,6 @@ from jdk.JDKCompiler import JDKCompiler
 from lifecycle.CompileLifeCycle import CompileLifeCycle
 from lifecycle.RunnerLifeCycle import RunnerLifeCycle
 from lifecycle.plugins.AutomaticPathGenerator import AutomaticPathGenerator
-from lifecycle.plugins.RunnerVersionLimiter import RunnerVersionLimiter
 from py3.GenericPythonRunner import GenericPython3Runner
 from py3.python_compiler import PythonCompiler
 
@@ -48,7 +48,6 @@ async def jdk_compiler(request: CompilerRequest):
 @app.post("/api/jdk_runner/{java_version}")
 async def jdk_runner(request: RunnerRequest, java_version: int):
     return RunnerLifeCycle(request, lambda: GenericJavaRunner(java_version)) \
-        .addPlugin(RunnerVersionLimiter(["8", "17"])) \
         .startLifeCycle()
 
 
@@ -99,5 +98,4 @@ async def root():
 
 
 if __name__ == "__main__":
-    import uvicorn
     uvicorn.run(app, host='0.0.0.0', port=8000)

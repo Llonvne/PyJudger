@@ -1,5 +1,5 @@
 # Test your FastAPI endpoints
-POST 127.0.0.1:8000/test/api/cpp_compiler
+POST 127.0.0.1:8000/api/cpp_compiler
 Content-Type: application/json
 
 {
