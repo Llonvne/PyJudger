@@ -1,12 +1,12 @@
-# LlonvneJudgerServer
+# PyJudger
 
 ## Introduction
 
-LlonvneJudgerServer is a sandbox code execution module for an online judge system based on FastApi and Docker.
+PyJudger is a sandbox code execution module for an online judge system based on FastApi and Docker.
 
 ## Status ![Static Badge](https://img.shields.io/badge/status-Finished-8A2BE2)
 
-LlonvneJudgerServer has already completed the implementation of the sandbox code execution module for **C++, Java, and
+PyJudger has already completed the implementation of the sandbox code execution module for **C++, Java, and
 Python**.Relying on Docker technology, we can easily provide almost all versions of Java and Python.
 
 ## Usage
